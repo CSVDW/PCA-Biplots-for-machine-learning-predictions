@@ -1,7 +1,7 @@
 # PCA-Biplots-for-machine-learning-predictions
 Understanding machine learning predictions with biplots
 
-Import data sets LUCAS_aggregated.txt and biplot_data.csv
+Import data sets LUCAS_aggregated.txt and biplot_data.csv. The covariates in the example data were kindly provided by ISRIC - World Soil Information (https://www.isric.org/). 
 
 Also includes script with complete examples of creating biplots with the R package ordr. 
 The examples include biplots with points as well as with alpha-bags
