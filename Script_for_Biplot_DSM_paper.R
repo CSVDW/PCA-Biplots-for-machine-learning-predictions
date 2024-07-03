@@ -36,7 +36,7 @@ D = my_pca$sdev^2
 V = my_pca$rotation
 
 #Calculate Xhat
-Xhat = U%*%diag(D)%*%J%*%t(V)
+Xhat <- X%*%V%*%J%*%t(V)
 
 #Construct Gabriel biplot (arrows from the origin)
 XV = X%*%V
@@ -50,6 +50,11 @@ sum(diag(sigma%*%J))/sum(diag(sigma))
 pc1 = D[1]/sum(D)
 pc2 = D[2]/sum(D)
 pc1 + pc2
+
+#predictivity of axes
+axes_predictivity=diag(t(Xhat)%*%Xhat)/diag(t(X)%*%X)
+(axes_predictivity_sorted = sort(axes_predictivity,decreasing=T))
+
 
 #plot scores
 plot(XVJ, xlab=paste0("PC1 (", round(pc1*100,1), "%)"), 
@@ -104,7 +109,7 @@ ggbiplot(prc, axis.type = "predictive", axis.percents = T) +
                          axis.text.y = element_blank(),
                          axis.ticks = element_blank()) +
   geom_rows_point() +
-  geom_rows_point(aes(col = response_cat),alpha=.9) + scale_color_brewer(palette = "RdYlGn") +
+  geom_rows_point(aes(col = response_cat),alpha=.9) + scale_color_brewer(palette = "RdYlBu") +
   geom_cols_axis(aes(label = name, center = center,scale=scale, label_dodge = 0.001)) + 
   guides(col=guide_legend(title="SOC", reverse=T))
 
@@ -179,9 +184,9 @@ ggbiplot(prc, axis.type = "predictive", axis.percents = T) +
         axis.text.y = element_blank(),
         axis.ticks = element_blank()) +
   stat_bag(aes(fill=response_cat),prop=.9,alpha=.5) +  #prop is the percentage for the alpha-bag
-  scale_fill_brewer(palette = "RdYlGn", na.translate=F) +
+  scale_fill_brewer(palette = "RdYlBu", na.translate=F) +
   geom_cols_axis(aes(label = name, center = center,scale=scale, label_dodge = -0.04)) +
-  scale_colour_brewer(palette = "RdYlGn") + 
+  scale_colour_brewer(palette = "RdYlBu") + 
   guides(fill=guide_legend(title = "SOC", reverse=T)) 
 
 
