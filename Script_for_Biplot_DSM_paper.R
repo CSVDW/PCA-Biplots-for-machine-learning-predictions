@@ -1,6 +1,6 @@
 #
 #
-#                 Script for Paper
+#    Script for Paper
 #    Biplots for understanding model predictions in digital soil mapping
 #
 #
@@ -188,6 +188,29 @@ ggbiplot(prc, axis.type = "predictive", axis.percents = T) +
   geom_cols_axis(aes(label = name, center = center,scale=scale, label_dodge = -0.04)) +
   scale_colour_brewer(palette = "RdYlBu") + 
   guides(fill=guide_legend(title = "SOC", reverse=T)) 
+
+###########################################################
+#  Constructing the same biplots with the biplotEZ package
+
+#library(devtools)
+#devtools::install_github("MuViSU/biplotEZ")
+
+install.packages("biplotEZ")
+library(biplotEZ)
+
+
+bip_ez = biplot(prc_dat[,1:8], scaled=T, group.aes=prc_dat[,10]) |> 
+  PCA() |> axes(col="black") |> alpha.bags(alpha=0.95) |> fit.measures() |>
+  plot()
+
+summary(bip_ez)
+
+my_pca_ez = prcomp(prc_dat[,1:8], scale. = T, center = T)
+D_ez = my_pca_ez$sdev^2
+
+bip_ez |> samples(which = NULL) |> legend.type(bags = TRUE) |> plot()
+title(xlab = paste0("PC1 (", round(D_ez[1]/sum(D_ez)*100,1), "%)"))
+title(ylab = paste0("PC2 (", round(D_ez[2]/sum(D_ez)*100,1), "%)"))
 
 
 
