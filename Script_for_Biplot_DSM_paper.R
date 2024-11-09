@@ -1,8 +1,7 @@
 #
 #
 #    Script for Paper
-#    Biplots for understanding model predictions in digital soil mapping
-#
+#    Biplots for understanding machine learning predictions in digital soil mapping
 #
 #    Author: Stephan van der Westhuizen
 #
@@ -112,6 +111,19 @@ ggbiplot(prc, axis.type = "predictive", axis.percents = T) +
   geom_rows_point(aes(col = response_cat),alpha=.9) + scale_color_brewer(palette = "RdYlBu") +
   geom_cols_axis(aes(label = name, center = center,scale=scale, label_dodge = 0.001)) + 
   guides(col=guide_legend(title="SOC", reverse=T))
+
+#predictive axes with isolines
+ggbiplot(prc, axis.type = "predictive", axis.percents = T) +
+  theme_biplot() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+                         axis.text.x = element_blank(),
+                         axis.text.y = element_blank(),
+                         axis.ticks = element_blank()) +
+  geom_density_2d(aes(col=response_cat), alpha=.9, linewidth = 1.2) +
+  scale_color_brewer(palette = "RdYlBu", na.translate = F) +
+  geom_cols_axis(aes(label = name, center = center,scale=scale)) +
+  guides(color=guide_legend(title="SOC", reverse=T)) 
+
+
 
 
 #   For alpha bags the user can refer to 
